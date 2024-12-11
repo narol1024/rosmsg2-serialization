@@ -124,11 +124,7 @@ const deserializers = new Map<string, Deserializer>([
   ["float64", (reader) => reader.float64()],
   ["string", (reader) => {
     // fix: for CDRCompatibleFixedCapacityString
-    const str = reader.string();
-    if (str.includes("\x00")) {
-      return reader.string().replace(/\x00/g, "");
-    }
-    return str;
+    return reader.string().replace(/\x00/g, "");
   }],
   ["time", (reader) => ({ sec: reader.int32(), nsec: reader.uint32() })],
   ["duration", (reader) => ({ sec: reader.int32(), nsec: reader.uint32() })],
